@@ -127,5 +127,13 @@
       }
     }
   },
-  "defaultProject": "taskbox"
+  "defaultProject": "taskbox",
+  "schematics": {
+    "@schematics/angular": {
+      "component": {
+        "inlineTemplate": true,
+        "inlineStyle": true
+      }
+    }
+  }
 }
