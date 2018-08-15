@@ -4,9 +4,26 @@ import { Task } from '../../task.model';
 @Component({
   selector: 'app-task',
   template: `
-  <div class="list-item">
-    <input type="text" [value]="task.title" readonly="true">
-  </div>
+    <div class="list-item {{ task?.state }}">
+      <label class="checkbox">
+        <input
+          type="checkbox"
+          [defaultChecked]="task?.state === 'TASK_ARCHIVED'"
+          disabled="true"
+          name="checked"
+        />
+        <span class="checkbox-custom" (click)="onArchive(task.id)"></span>
+      </label>
+      <div class="title">
+        <input type="text" [value]="task?.title" readonly="true" placeholder="Input title" />
+      </div>
+
+      <div class="actions">
+          <a *ngIf="task?.state !== 'TASK_ARCHIVED'" (click)="onPin(task.id)">
+            <span class="icon-star"></span>
+          </a>
+      </div>
+    </div>
   `,
   styles: []
 })
@@ -21,4 +38,12 @@ export class TaskComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}
+
+  onPin(id) {
+    this.pinTask.emit(id);
+  }
+
+  onArchive(id) {
+    this.archiveTask.emit(id);
+  }
 }

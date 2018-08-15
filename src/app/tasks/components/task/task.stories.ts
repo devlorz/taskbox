@@ -1,6 +1,7 @@
 import { TaskComponent } from './task.component';
 import { action } from '@storybook/addon-actions';
 import { storiesOf, moduleMetadata } from '@storybook/angular';
+import { CommonModule } from '@angular/common';
 
 export const task = {
   id: '1',
@@ -17,7 +18,8 @@ export const actions = {
 storiesOf('Task', module)
   .addDecorator(
     moduleMetadata({
-      declarations: [TaskComponent]
+      declarations: [TaskComponent],
+      imports: [CommonModule]
     })
   )
   .add('default', () => {
@@ -29,6 +31,26 @@ storiesOf('Task', module)
       `,
       props: {
         task,
+        pinTask: actions.pinTask,
+        archiveTask: actions.archiveTask
+      }
+    };
+  })
+  .add('pinned', () => {
+    return {
+      template: `<app-task [task]="task" (pinTask)="pinTask($event)" (archiveTask)="archiveTask($event)" ></app-task>`,
+      props: {
+        task: { ...task, state: 'TASK_PINNED' },
+        pinTask: actions.pinTask,
+        archiveTask: actions.archiveTask
+      }
+    };
+  })
+  .add('archived', () => {
+    return {
+      template: `<app-task [task]="task" (pinTask)="pinTask($event)" (archiveTask)="archiveTask($event)" ></app-task>`,
+      props: {
+        task: { ...task, state: 'TASK_ARCHIVED' },
         pinTask: actions.pinTask,
         archiveTask: actions.archiveTask
       }
